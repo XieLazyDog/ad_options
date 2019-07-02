@@ -32,4 +32,4 @@
    
    但是这里比较麻烦的一点是如果我的广告在不同的Acitivty中展示，splash广告在SplashActicity，banner广告在主界面Activity，这是我从SplashActivity进入MainActivity后需要重新实例化该类，然后重新获取xml配置数据。这样是很反人类的做法，为了避免这种脑残设计，我使用了SharedPreference。在应用打开后初次获取到数据后，会将数据记录到sharedPreference中。然后就可以在不同的Activity中获取一开始得到的数据，而不需要重新获取xml数据。但是之后感觉对于这种情况SP不大好用，最粗暴的方法还是static。通过static可以在整个应用均能访问到。在AdOptionFetcher类中将xmlFetched状态和广告配置信息都设为static。这样就避免了多次申请xml的操作。同时使用更加方便，只需调用AdOptionFetcher（）即可。
    
-   在实测xml获取的速度后，发现应用初次连接github时，都会有2-5秒的延迟时间，然后退出应用，再打开时，加载速度
+   在实测xml获取的速度后，发现应用初次连接github时，都会有2-5秒的延迟时间，然后退出应用，再打开时，加载速度会有明显提升，基本在500ms以内。所以我觉得不能指望用户等待5秒钟的时间来看你的广告，所以决定采用SharedPreferences，执行 本次获取的配置在下次生效的策略，从而不必等待xml解读完成，本次
